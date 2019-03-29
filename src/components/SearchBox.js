@@ -24,7 +24,7 @@ export default class SearchBox extends Component {
     super(props);
 
     this.state = {
-      text: this.props.search
+      text: this.props.search || ""
     };
   }
 

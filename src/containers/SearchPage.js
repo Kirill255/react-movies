@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import { Route } from "react-router-dom";
-import { withRouter } from "react-router";
+import { push } from "connected-react-router";
 
 import { searchMovies } from "../actions";
 
@@ -31,15 +30,15 @@ class SearchPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.search !== this.props.search) {
+    if (nextProps.search && nextProps.search !== this.props.search) {
       this.props.searchMovies(nextProps.search);
     }
   }
 
   handleSearch = (search) => {
-    const { history, location } = this.props;
+    const { push, location } = this.props;
 
-    history.push({
+    push({
       pathname: location.pathname,
       query: { ...location.query, search }
     });
@@ -66,18 +65,11 @@ function mapStateToProps(state, ownProps) {
   return {
     movies: state.movies.items,
     loading: state.movies.isFetching,
-    search: ownProps.location.query.search
+    search: state.router.location.query.search
   };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    { searchMovies }
-  )(SearchPage)
-);
-
-// export default connect(
-//   mapStateToProps,
-//   { searchMovies }
-// )(SearchPage);
+export default connect(
+  mapStateToProps,
+  { searchMovies, push }
+)(SearchPage);
