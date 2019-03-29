@@ -1,25 +1,22 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Route, /*  NavLink, */ Switch, Redirect } from "react-router-dom";
+
+import SearchPage from "./containers/SearchPage";
+import MoviePage from "./containers/MoviePage";
+// import AboutPage from "./containers/AboutPage";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Switch>
+          <Redirect from="/" to="/movies" exact />
+          {/* <Route path="/movies" component={AboutPage} /> */}
+          <Route path="/movies/:id" component={MoviePage} />
+          <Route path="/movies" component={SearchPage} />
+          {/* <Route path="/about" component={AboutPage} /> */}
+          {/* <Route path="*" render={() => <h1>Not Found Page</h1>} /> */}
+        </Switch>
       </div>
     );
   }
