@@ -45,9 +45,40 @@ export function fetchRecommendationsMovie(id) {
     .then((data) => camelcaseKeys(data, { deep: true }));
 }
 
+export function fetchPopularMovies() {
+  const params = {
+    api_key: API_KEY
+  };
+
+  return axios
+    .get(`${API_PREFIX}/movie/popular`, { params })
+    .then((data) => camelcaseKeys(data, { deep: true }));
+}
+export function fetchTopRatedMovies() {
+  const params = {
+    api_key: API_KEY
+  };
+
+  return axios
+    .get(`${API_PREFIX}/movie/top_rated`, { params })
+    .then((data) => camelcaseKeys(data, { deep: true }));
+}
+export function fetchNowPlaying() {
+  const params = {
+    api_key: API_KEY
+  };
+
+  return axios
+    .get(`${API_PREFIX}/movie/now_playing`, { params })
+    .then((data) => camelcaseKeys(data, { deep: true }));
+}
+
 export default {
   searchMovies,
   fetchMovie,
   fetchSimilarMovie,
-  fetchRecommendationsMovie
+  fetchRecommendationsMovie,
+  fetchPopularMovies,
+  fetchTopRatedMovies,
+  fetchNowPlaying
 };

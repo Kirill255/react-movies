@@ -15,6 +15,18 @@ export const FETCH_SIMILAR_MOVIE_FAILURE = "FETCH_SIMILAR_MOVIE_FAILURE";
 export const FETCH_RECOMMENDATIONS_MOVIE_REQUEST = "FETCH_RECOMMENDATIONS_MOVIE_REQUEST";
 export const FETCH_RECOMMENDATIONS_MOVIE_SUCCESS = "FETCH_RECOMMENDATIONS_MOVIE_SUCCESS";
 export const FETCH_RECOMMENDATIONS_MOVIE_FAILURE = "FETCH_RECOMMENDATIONS_MOVIE_FAILURE";
+// getPopularMovies
+export const FETCH_POPULAR_MOVIES_REQUEST = "FETCH_POPULAR_MOVIES_REQUEST";
+export const FETCH_POPULAR_MOVIES_SUCCESS = "FETCH_POPULAR_MOVIES_SUCCESS";
+export const FETCH_POPULAR_MOVIES_FAILURE = "FETCH_POPULAR_MOVIES_FAILURE";
+// getTopRatedMovies
+export const FETCH_TOP_RATED_MOVIES_REQUEST = "FETCH_TOP_RATED_MOVIES_REQUEST";
+export const FETCH_TOP_RATED_MOVIES_SUCCESS = "FETCH_TOP_RATED_MOVIES_SUCCESS";
+export const FETCH_TOP_RATED_MOVIES_FAILURE = "FETCH_TOP_RATED_MOVIES_FAILURE";
+// getNowPlaying
+export const FETCH_NOW_PLAING_MOVIES_REQUEST = "FETCH_NOW_PLAING_MOVIES_REQUEST";
+export const FETCH_NOW_PLAING_MOVIES_SUCCESS = "FETCH_NOW_PLAING_MOVIES_SUCCESS";
+export const FETCH_NOW_PLAING_MOVIES_FAILURE = "FETCH_NOW_PLAING_MOVIES_FAILURE";
 
 /*
  ** Actions
@@ -60,6 +72,33 @@ export const fetchRecommendationsMovieSuccess = ({ data }) => ({
   ...data
 });
 
+export const fetchPopularMoviesRequest = () => ({
+  type: FETCH_POPULAR_MOVIES_REQUEST
+});
+
+export const fetchPopularMoviesSuccess = ({ data }) => ({
+  type: FETCH_POPULAR_MOVIES_SUCCESS,
+  ...data
+});
+
+export const fetchTopRatedMoviesRequest = () => ({
+  type: FETCH_TOP_RATED_MOVIES_REQUEST
+});
+
+export const fetchTopRatedMoviesSuccess = ({ data }) => ({
+  type: FETCH_TOP_RATED_MOVIES_SUCCESS,
+  ...data
+});
+
+export const fetchNowPlayingRequest = () => ({
+  type: FETCH_NOW_PLAING_MOVIES_REQUEST
+});
+
+export const fetchNowPlayingSuccess = ({ data }) => ({
+  type: FETCH_NOW_PLAING_MOVIES_SUCCESS,
+  ...data
+});
+
 /*
  ** Thunks
  */
@@ -97,5 +136,32 @@ export const fetchRecommendationsMovie = (id) => (dispatch) => {
   return api
     .fetchRecommendationsMovie(id)
     .then((data) => dispatch(fetchRecommendationsMovieSuccess(data)))
+    .catch((error) => console.log(error));
+};
+
+export const fetchPopularMovies = () => (dispatch) => {
+  dispatch(fetchPopularMoviesRequest());
+
+  return api
+    .fetchPopularMovies()
+    .then((data) => dispatch(fetchPopularMoviesSuccess(data)))
+    .catch((error) => console.log(error));
+};
+
+export const fetchTopRatedMovies = () => (dispatch) => {
+  dispatch(fetchTopRatedMoviesRequest());
+
+  return api
+    .fetchTopRatedMovies()
+    .then((data) => dispatch(fetchTopRatedMoviesSuccess(data)))
+    .catch((error) => console.log(error));
+};
+
+export const fetchNowPlaying = () => (dispatch) => {
+  dispatch(fetchNowPlayingRequest());
+
+  return api
+    .fetchNowPlaying()
+    .then((data) => dispatch(fetchNowPlayingSuccess(data)))
     .catch((error) => console.log(error));
 };

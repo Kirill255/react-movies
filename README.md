@@ -13,3 +13,5 @@ https://stackoverflow.com/questions/43216569/how-to-get-query-parameters-in-reac
 https://www.themoviedb.org/
 
 https://developers.themoviedb.org/3
+
+https://developers.themoviedb.org/3/configuration/get-api-configuration
