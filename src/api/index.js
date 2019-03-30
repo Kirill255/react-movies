@@ -25,7 +25,29 @@ export function fetchMovie(id) {
     .then((data) => camelcaseKeys(data, { deep: true }));
 }
 
+export function fetchSimilarMovie(id) {
+  const params = {
+    api_key: API_KEY
+  };
+
+  return axios
+    .get(`${API_PREFIX}/movie/${id}/similar`, { params })
+    .then((data) => camelcaseKeys(data, { deep: true }));
+}
+
+export function fetchRecommendationsMovie(id) {
+  const params = {
+    api_key: API_KEY
+  };
+
+  return axios
+    .get(`${API_PREFIX}/movie/${id}/recommendations`, { params })
+    .then((data) => camelcaseKeys(data, { deep: true }));
+}
+
 export default {
   searchMovies,
-  fetchMovie
+  fetchMovie,
+  fetchSimilarMovie,
+  fetchRecommendationsMovie
 };

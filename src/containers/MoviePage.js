@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Route } from "react-router-dom";
+import { Route, NavLink } from "react-router-dom";
 
 import { fetchMovie } from "../actions";
 
@@ -16,6 +16,12 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     padding: 8
+  },
+  menu: {
+    display: "flex",
+    justifyContent: "space-around",
+    marginTop: 30,
+    marginBottom: 30
   }
 };
 
@@ -33,11 +39,11 @@ class MoviePage extends Component {
   }
 
   goBack = () => {
-    this.props.history.goBack();
+    this.props.history.push({ pathname: "/movies" });
   };
 
   render() {
-    const { movie, loading, children } = this.props;
+    const { movie, loading } = this.props;
     console.log("MoviePage: ", this.props);
 
     return (
@@ -52,10 +58,26 @@ class MoviePage extends Component {
           <MovieInfo {...movie} />
         </BackdropContainer>
 
-        {children}
+        <div style={styles.menu}>
+          <NavLink
+            to={`${this.props.match.url}/recommendations`}
+            activeStyle={{ color: "red", fontWeight: "bold", textDecoration: "none" }}
+          >
+            Recommendations
+          </NavLink>
+          <NavLink
+            to={`${this.props.match.url}/similar`}
+            activeStyle={{ color: "red", fontWeight: "bold", textDecoration: "none" }}
+          >
+            Similar
+          </NavLink>
+        </div>
 
-        <Route path="recommendations" component={MovieRecommendationsPage} />
-        <Route path="similar" component={MovieSimilarPage} />
+        <Route
+          path={`${this.props.match.path}/recommendations`}
+          component={MovieRecommendationsPage}
+        />
+        <Route path={`${this.props.match.path}/similar`} component={MovieSimilarPage} />
       </Loader>
     );
   }
