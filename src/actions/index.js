@@ -1,4 +1,5 @@
 import api from "../api";
+import { saveSession } from "../utils/session";
 
 export const FETCH_MOVIES_REQUEST = "FETCH_MOVIES_REQUEST";
 export const FETCH_MOVIES_SUCCESS = "FETCH_MOVIES_SUCCESS";
@@ -27,6 +28,10 @@ export const FETCH_TOP_RATED_MOVIES_FAILURE = "FETCH_TOP_RATED_MOVIES_FAILURE";
 export const FETCH_NOW_PLAING_MOVIES_REQUEST = "FETCH_NOW_PLAING_MOVIES_REQUEST";
 export const FETCH_NOW_PLAING_MOVIES_SUCCESS = "FETCH_NOW_PLAING_MOVIES_SUCCESS";
 export const FETCH_NOW_PLAING_MOVIES_FAILURE = "FETCH_NOW_PLAING_MOVIES_FAILURE";
+
+export const AUTH_REQUEST = "AUTH_REQUEST";
+export const AUTH_SUCCESS = "AUTH_SUCCESS";
+export const AUTH_FAILURE = "AUTH_FAILURE";
 
 /*
  ** Actions
@@ -99,6 +104,26 @@ export const fetchNowPlayingSuccess = ({ data }) => ({
   ...data
 });
 
+// auth
+export const authRequest = () => ({
+  type: AUTH_REQUEST
+});
+
+export const authSuccess = ({ token, user }) => {
+  saveSession(token);
+
+  return {
+    type: AUTH_SUCCESS,
+    user: user,
+    token: token
+  };
+};
+
+export const authFailure = (error) => ({
+  type: AUTH_FAILURE,
+  error
+});
+
 /*
  ** Thunks
  */
@@ -164,4 +189,26 @@ export const fetchNowPlaying = () => (dispatch) => {
     .fetchNowPlaying()
     .then((data) => dispatch(fetchNowPlayingSuccess(data)))
     .catch((error) => console.log(error));
+};
+
+// auth
+export const auth = (login, password) => (dispatch) => {
+  dispatch(authRequest());
+
+  return api
+    .auth(login, password)
+    .then((data) => dispatch(authSuccess(data)))
+    .catch((error) => dispatch(authFailure(error)));
+};
+
+export const restoreAuth = (token) => (dispatch) => {
+  dispatch(authRequest());
+
+  return (
+    api
+      .checkAuth(token)
+      .then((data) => dispatch(authSuccess(data)))
+      // .catch((error) => console.log(error));
+      .catch((error) => {})
+  );
 };

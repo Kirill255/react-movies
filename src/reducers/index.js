@@ -16,7 +16,10 @@ import {
   FETCH_TOP_RATED_MOVIES_REQUEST,
   FETCH_TOP_RATED_MOVIES_SUCCESS,
   FETCH_NOW_PLAING_MOVIES_REQUEST,
-  FETCH_NOW_PLAING_MOVIES_SUCCESS
+  FETCH_NOW_PLAING_MOVIES_SUCCESS,
+  AUTH_REQUEST,
+  AUTH_SUCCESS,
+  AUTH_FAILURE
 } from "../actions";
 
 const movies = (state = { isFetching: false, items: [] }, action) => {
@@ -126,10 +129,40 @@ const allmovies = (
   }
 };
 
+const session = (state = { isLoggingIn: false, isLoggedIn: false, error: null }, action) => {
+  switch (action.type) {
+    case AUTH_REQUEST:
+      return {
+        ...state,
+        isLoggingIn: true
+      };
+
+    case AUTH_SUCCESS:
+      return {
+        ...state,
+        isLoggingIn: false,
+        isLoggedIn: true,
+        error: null
+      };
+
+    case AUTH_FAILURE:
+      return {
+        ...state,
+        isLoggingIn: false,
+        isLoggedIn: false,
+        error: action.error
+      };
+
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   router: connectRouter(history),
   movies,
   movie,
   relatedmovies,
-  allmovies
+  allmovies,
+  session
 });
