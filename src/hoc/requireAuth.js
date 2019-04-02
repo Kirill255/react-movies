@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { replace } from "connected-react-router";
 
+import { isLoggedInSelector } from "../selectors";
+
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
-    isLoggedIn: state.session.isLoggedIn,
+    isLoggedIn: isLoggedInSelector(state),
     pathname: state.router.location.pathname,
     query: state.router.location.query
   };

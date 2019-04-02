@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 
-import { searchMovies } from "../actions";
-
 import SearchBox from "../components/SearchBox";
 import Loader from "../components/Loader";
 import MovieGrid from "../components/MovieGrid";
+
+import { searchMovies } from "../actions";
+import {
+  getSearchMoviesSelector,
+  getSearchMoviesCountSelector,
+  isSearchMoviesFetchingSelector,
+  getMoviesSearchQuerySelector
+} from "../selectors";
 
 const styles = {
   container: {
@@ -45,13 +51,13 @@ class SearchPage extends Component {
   };
 
   render() {
-    console.log(this.props);
-    const { search, loading, movies } = this.props;
+    const { search, loading, movies, moviesCount } = this.props;
     return (
       <div>
         <SearchBox search={search} onSearch={this.handleSearch} />
         <div style={styles.container}>
           <Loader loading={loading}>
+            {!!movies.length && <p>Found {moviesCount} movies</p>}
             <MovieGrid movies={movies} />
           </Loader>
         </div>
@@ -61,11 +67,11 @@ class SearchPage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log(ownProps);
   return {
-    movies: state.movies.items,
-    loading: state.movies.isFetching,
-    search: state.router.location.query.search
+    movies: getSearchMoviesSelector(state),
+    moviesCount: getSearchMoviesCountSelector(state),
+    loading: isSearchMoviesFetchingSelector(state),
+    search: getMoviesSearchQuerySelector(state)
   };
 }
 

@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Route, NavLink } from "react-router-dom";
 
-import { fetchMovie } from "../actions";
-
 import Button from "@material-ui/core/Button";
 import MovieSimilarPage from "./MovieSimilarPage";
 import MovieRecommendationsPage from "./MovieRecommendationsPage";
 import MovieInfo from "../components/MovieInfo";
 import BackdropContainer from "../components/BackdropContainer";
 import Loader from "../components/Loader";
+
+import { fetchMovie } from "../actions";
+import { getMovieSelector, isMovieFetchingSelector, getMovieIdSelector } from "../selectors";
 
 const styles = {
   actions: {
@@ -44,7 +45,6 @@ class MoviePage extends Component {
 
   render() {
     const { movie, loading } = this.props;
-    console.log("MoviePage: ", this.props);
 
     return (
       <Loader loading={loading}>
@@ -84,11 +84,10 @@ class MoviePage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log(ownProps);
   return {
-    movie: state.movie.info,
-    loading: state.movie.isFetching,
-    movieId: ownProps.match.params.id
+    movie: getMovieSelector(state),
+    loading: isMovieFetchingSelector(state),
+    movieId: getMovieIdSelector(state, ownProps)
   };
 }
 

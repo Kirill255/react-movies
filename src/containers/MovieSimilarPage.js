@@ -37,8 +37,6 @@ class MovieSimilarPage extends Component {
   }
 
   render() {
-    console.log(this.props.match);
-    console.log(this.props);
     return (
       <div>
         <div style={styles.container}>

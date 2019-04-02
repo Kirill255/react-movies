@@ -7,6 +7,12 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 
 import { auth } from "../actions";
+import {
+  isLoggingInSelector,
+  isLoggedInSelector,
+  getAuthErrorSelector,
+  getNextLocationSelector
+} from "../selectors";
 
 const styles = {
   container: {
@@ -73,7 +79,7 @@ class LoginPage extends Component {
   };
 
   render() {
-    const { error } = this.props;
+    const { authError } = this.props;
 
     return (
       <div style={styles.container}>
@@ -103,7 +109,7 @@ class LoginPage extends Component {
 
             <br />
 
-            {error && <p style={styles.error}>{error}</p>}
+            {authError && <p style={styles.error}>{authError}</p>}
 
             <Button fullWidth variant="contained" color="primary" onClick={this.handleLogIn}>
               Log in
@@ -117,10 +123,10 @@ class LoginPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggingIn: state.session.isLoggingIn,
-    isLoggedIn: state.session.isLoggedIn,
-    error: state.session.error,
-    nextLocation: state.router.location.state && state.router.location.state.nextLocation
+    isLoggingIn: isLoggingInSelector(state),
+    isLoggedIn: isLoggedInSelector(state),
+    authError: getAuthErrorSelector(state),
+    nextLocation: getNextLocationSelector(state)
   };
 };
 

@@ -37,10 +37,6 @@ class MovieRecommendationsPage extends Component {
   }
 
   render() {
-    console.log(this.props.match);
-    console.log(this.props);
-    console.log(this.props.loading);
-
     return (
       <div>
         <div style={styles.container}>
